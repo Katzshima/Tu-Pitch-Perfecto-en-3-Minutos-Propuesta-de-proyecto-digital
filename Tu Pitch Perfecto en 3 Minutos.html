@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINEMATCH — Informe de Pitch | Jheremy Danny Atarama Anampa</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-2:#12121a;
+    --card:#16161f;
+    --border:#262633;
+    --fg:#f5f5f7;
+    --muted:#8a8a99;
+    --gold:#ffb800;
+    --gold-2:#ff8a00;
+    --crimson:#e63946;
+    --magenta:#ff2e63;
+    --mint:#00d9a3;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Space Grotesk',sans-serif;
+    background:var(--bg);
+    color:var(--fg);
+    overflow-x:hidden;
+  }
+  .display{font-family:'Anton',sans-serif;letter-spacing:.02em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  
+  /* Film grain overlay */
+  .grain::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.06;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/></svg>");
+  }
+  
+  /* Spotlight hero background */
+  .spotlight{
+    position:absolute;inset:0;overflow:hidden;
+  }
+  .spotlight::before, .spotlight::after{
+    content:"";position:absolute;border-radius:50%;
+    filter:blur(80px);opacity:.35;
+  }
+  .spotlight::before{
+    width:600px;height:600px;background:var(--gold);
+    top:-200px;left:-100px;animation:float1 12s ease-in-out infinite;
+  }
+  .spotlight::after{
+    width:500px;height:500px;background:var(--crimson);
+    bottom:-150px;right:-100px;animation:float2 14s ease-in-out infinite;
+  }
+  @keyframes float1{
+    0%,100%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(80px,40px) scale(1.1)}
+  }
+  @keyframes float2{
+    0%,100%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(-60px,-40px) scale(1.15)}
+  }
+  
+  /* Marquee */
+  .marquee{display:flex;gap:3rem;animation:marquee 30s linear infinite;white-space:nowrap}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  
+  /* Card hover */
+  .card-h{
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), border-color .4s, background .4s;
+    position:relative;overflow:hidden;
+  }
+  .card-h::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(255,184,0,.08), transparent 40%);
+    opacity:0;transition:opacity .4s;pointer-events:none;
+  }
+  .card-h:hover{transform:translateY(-6px);border-color:var(--gold)}
+  .card-h:hover::after{opacity:1}
+  
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s, transform .9s}
+  .reveal.in{opacity:1;transform:none}
+  
+  /* Bars */
+  .bar-fill{
+    background:linear-gradient(90deg,var(--gold),var(--gold-2));
+    box-shadow:0 0 24px rgba(255,184,0,.4);
+    transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .bar-fill.in{transform:scaleX(1)}
+  
+  /* Timeline */
+  .tl-line{
+    background:linear-gradient(90deg,var(--gold),var(--crimson),var(--magenta));
+  }
+  .tl-dot{
+    box-shadow:0 0 0 4px var(--bg), 0 0 24px var(--gold);
+  }
+  
+  /* Glow text */
+  .glow-gold{text-shadow:0 0 40px rgba(255,184,0,.5)}
+  
+  /* Concentric rings */
+  .ring{
+    position:absolute;border-radius:50%;border:1px solid var(--border);
+    top:50%;left:50%;transform:translate(-50%,-50%);
+  }
+  
+  /* Btn */
+  .btn-primary{
+    background:linear-gradient(135deg,var(--gold),var(--gold-2));
+    color:#0a0a0f;font-weight:700;
+    transition:transform .3s, box-shadow .3s;
+    box-shadow:0 8px 32px rgba(255,184,0,.25);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,184,0,.45)}
+  
+  .btn-ghost{
+    border:1px solid var(--border);color:var(--fg);
+    transition:border-color .3s, background .3s;
+  }
+  .btn-ghost:hover{border-color:var(--gold);background:rgba(255,184,0,.06)}
+  
+  /* Section tag */
+  .stag{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.4rem .9rem;border:1px solid var(--border);border-radius:999px;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+    background:rgba(255,255,255,.02);
+  }
+  .stag .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+  
+  /* Nav */
+  .nav-link{position:relative;color:var(--muted);transition:color .3s}
+  .nav-link:hover{color:var(--fg)}
+  .nav-link::after{
+    content:"";position:absolute;bottom:-6px;left:0;height:1px;width:0;
+    background:var(--gold);transition:width .3s;
+  }
+  .nav-link:hover::after{width:100%}
+  
+  /* Scrolling progress bar at top */
+  #progress{
+    position:fixed;top:0;left:0;height:2px;width:0;
+    background:linear-gradient(90deg,var(--gold),var(--crimson));
+    z-index:100;transition:width .15s;
+  }
+  
+  /* Section divider */
+  .divider-cine{
+    height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);
+  }
+  
+  /* Problem list */
+  .prob-item{
+    border-left:2px solid var(--crimson);
+    background:linear-gradient(90deg,rgba(230,57,70,.08),transparent 60%);
+  }
+  .sol-item{
+    border-left:2px solid var(--mint);
+    background:linear-gradient(90deg,rgba(0,217,163,.08),transparent 60%);
+  }
+  
+  /* Logo */
+  .logo-mark{
+    background:linear-gradient(135deg,var(--gold),var(--crimson));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  
+  /* AIDA chart */
+  .aida-bar{
+    transition:all .4s;
+  }
+  .aida-bar:hover{
+    background:linear-gradient(90deg,var(--gold),var(--gold-2));
+  }
+  
+  @media (max-width:768px){
+    .display{letter-spacing:0}
+  }
+</style>
+</head>
+<body class="grain">
+
+<div id="progress"></div>
+
+<!-- NAV -->
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/5">
+  <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,var(--gold),var(--crimson))">
+        <i class="fa-solid fa-clapperboard text-black text-sm"></i>
+      </div>
+      <span class="display text-xl">CINE<span class="logo-mark">MATCH</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm">
+      <a href="#problema" class="nav-link">Problema</a>
+      <a href="#solucion" class="nav-link">Solución</a>
+      <a href="#funciones" class="nav-link">Funciones</a>
+      <a href="#roadmap" class="nav-link">Roadmap</a>
+      <a href="#mercado" class="nav-link">Mercado</a>
+      <a href="#aida" class="nav-link">AIDA</a>
+    </div>
+    <a href="https://www.cinematch.app" target="_blank" class="btn-primary text-xs px-4 py-2 rounded-lg hidden sm:inline-block">
+      Ver Demo <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
+    </a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative min-h-screen flex items-center pt-24 pb-16">
+  <div class="spotlight"></div>
+  <div class="absolute inset-0 opacity-30" style="background:radial-gradient(ellipse at center, transparent 0%, var(--bg) 80%)"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        <div class="stag mb-6 reveal"><span class="dot"></span>Informe de Pitch · Semana 14 · AIDA+Close</div>
+        <h1 class="display text-7xl md:text-8xl lg:text-9xl leading-[0.85] mb-6 reveal">
+          MENOS<br>
+          <span class="logo-mark glow-gold">BUSCANDO</span><br>
+          MÁS DISFRUTANDO
+        </h1>
+        <p class="text-lg md:text-xl text-zinc-400 max-w-xl mb-8 reveal">
+          CINEMATCH es la plataforma que reduce la sobrecarga de opciones en streaming y mejora tu experiencia de entretenimiento con recomendaciones inteligentes y personalizadas.
+        </p>
+        <div class="flex flex-wrap gap-3 reveal">
+          <a href="https://www.cinematch.app" target="_blank" class="btn-primary px-6 py-3 rounded-lg inline-flex items-center gap-2">
+            <i class="fa-solid fa-play"></i> Ver Demo en Vivo
+          </a>
+          <a href="#problema" class="btn-ghost px-6 py-3 rounded-lg inline-flex items-center gap-2">
+            Conoce el Proyecto <i class="fa-solid fa-arrow-down"></i>
+          </a>
+        </div>
+      </div>
+      
+      <div class="lg:col-span-5 reveal">
+        <div class="relative">
+          <!-- Floating card stack -->
+          <div class="absolute -top-4 -left-4 w-full h-full rounded-2xl border border-white/5" style="background:linear-gradient(135deg,rgba(255,184,0,.05),rgba(230,57,70,.05))"></div>
+          <div class="relative bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 backdrop-blur">
+            <div class="flex items-center justify-between mb-6">
+              <span class="mono text-xs text-zinc-500">PITCH_REPORT.md</span>
+              <span class="flex gap-1">
+                <span class="w-2 h-2 rounded-full bg-red-500/70"></span>
+                <span class="w-2 h-2 rounded-full bg-yellow-500/70"></span>
+                <span class="w-2 h-2 rounded-full bg-green-500/70"></span>
+              </span>
+            </div>
+            <div class="space-y-4 text-sm">
+              <div class="flex justify-between border-b border-white/5 pb-3">
+                <span class="text-zinc-500">Estudiante</span>
+                <span class="font-medium">Jheremy D. Atarama Anampa</span>
+              </div>
+              <div class="flex justify-between border-b border-white/5 pb-3">
+                <span class="text-zinc-500">Curso</span>
+                <span class="font-medium">Infografía</span>
+              </div>
+              <div class="flex justify-between border-b border-white/5 pb-3">
+                <span class="text-zinc-500">Audiencia</span>
+                <span class="font-medium">Clientes</span>
+              </div>
+              <div class="flex justify-between border-b border-white/5 pb-3">
+                <span class="text-zinc-500">Metodología</span>
+                <span class="font-medium">AIDA + Close</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-zinc-500">Fecha</span>
+                <span class="font-medium mono">23 · 06 · 2026</span>
+              </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-white/5">
+              <div class="text-xs text-zinc-500 mb-2">Contacto</div>
+              <div class="mono text-sm text-[var(--gold)]">U20210718@utp.edu.pe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Marquee -->
+    <div class="mt-20 overflow-hidden border-y border-white/5 py-4 reveal">
+      <div class="marquee text-zinc-600 display text-2xl">
+        <span>NETFLIX</span><span class="text-[var(--gold)]">★</span>
+        <span>PRIME VIDEO</span><span class="text-[var(--gold)]">★</span>
+        <span>DISNEY+</span><span class="text-[var(--gold)]">★</span>
+        <span>MAX</span><span class="text-[var(--gold)]">★</span>
+        <span>TV TIME</span><span class="text-[var(--gold)]">★</span>
+        <span>JUSTWATCH</span><span class="text-[var(--gold)]">★</span>
+        <span>NETFLIX</span><span class="text-[var(--gold)]">★</span>
+        <span>PRIME VIDEO</span><span class="text-[var(--gold)]">★</span>
+        <span>DISNEY+</span><span class="text-[var(--gold)]">★</span>
+        <span>MAX</span><span class="text-[var(--gold)]">★</span>
+        <span>TV TIME</span><span class="text-[var(--gold)]">★</span>
+        <span>JUSTWATCH</span><span class="text-[var(--gold)]">★</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section id="problema" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5 reveal">
+        <div class="stag mb-6"><span class="dot"></span>01 · El Problema</div>
+        <h2 class="display text-5xl md:text-6xl leading-none mb-6">
+          LA PARADOJA<br>
+          DE LA<br>
+          <span style="color:var(--crimson)">ELECCIÓN</span>
+        </h2>
+        <p class="text-zinc-400 text-lg leading-relaxed mb-8">
+          Los usuarios de plataformas de streaming enfrentan una paradoja moderna: nunca hubo tanto contenido disponible, y nunca fue tan difícil decidir qué ver.
+        </p>
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <i class="fa-solid fa-user-injured text-[var(--crimson)]"></i>
+            <span class="text-xs uppercase tracking-widest text-zinc-500">Dolor del Usuario</span>
+          </div>
+          <p class="text-zinc-300 leading-relaxed">
+            "No saber qué ver entre tantas opciones disponibles y terminar perdiendo más tiempo <span class="text-white font-semibold">buscando que disfrutando</span> del contenido."
+          </p>
+        </div>
+      </div>
+      
+      <div class="lg:col-span-7 space-y-4 reveal">
+        <div class="prob-item p-6 rounded-r-xl">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl display text-[var(--crimson)]">01</div>
+            <div>
+              <h3 class="font-bold text-lg mb-1">Exceso de contenido disponible</h3>
+              <p class="text-zinc-400 text-sm">Miles de títulos distribuidos en múltiples plataformas generan parálisis por análisis.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prob-item p-6 rounded-r-xl">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl display text-[var(--crimson)]">02</div>
+            <div>
+              <h3 class="font-bold text-lg mb-1">Dificultad para encontrar títulos acordes</h3>
+              <p class="text-zinc-400 text-sm">Las categorías genéricas no capturan los gustos reales ni el contexto del momento.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prob-item p-6 rounded-r-xl">
+          <div class="flex items-start gap-4">
+            <div class="text-3xl display text-[var(--crimson)]">03</div>
+            <div>
+              <h3 class="font-bold text-lg mb-1">Recomendaciones poco precisas</h3>
+              <p class="text-zinc-400 text-sm">Los algoritmos actuales recomiendan por popularidad, no por afinidad real con el usuario.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-8 grid grid-cols-3 gap-4">
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 text-center">
+            <div class="display text-4xl logo-mark">18-35</div>
+            <div class="text-xs text-zinc-500 mt-1">Años usuarios objetivo</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 text-center">
+            <div class="display text-4xl logo-mark">+30</div>
+            <div class="text-xs text-zinc-500 mt-1">Minutos perdidos buscando</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 text-center">
+            <div class="display text-4xl logo-mark">6+</div>
+            <div class="text-xs text-zinc-500 mt-1">Plataformas simultáneas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- SOLUCIÓN -->
+<section id="solucion" class="relative py-32 px-6 overflow-hidden">
+  <div class="absolute top-1/2 -right-32 w-96 h-96 rounded-full" style="background:radial-gradient(circle,rgba(0,217,163,.15),transparent 70%);filter:blur(40px)"></div>
+  
+  <div class="max-w-7xl mx-auto relative">
+    <div class="text-center mb-16 reveal">
+      <div class="stag mb-6 mx-auto"><span class="dot"></span>02 · La Solución</div>
+      <h2 class="display text-5xl md:text-7xl leading-none mb-6">
+        RECOMENDACIONES<br>
+        <span style="background:linear-gradient(135deg,var(--mint),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent">QUE ENTIENDEN TU GUSTO</span>
+      </h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">
+        La plataforma reduce la sobrecarga de opciones y mejora la experiencia de entretenimiento mediante recomendaciones inteligentes y personalizadas.
+      </p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6 mb-16">
+      <div class="card-h bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 reveal">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(255,184,0,.1)">
+          <i class="fa-solid fa-wand-magic-sparkles text-[var(--gold)] text-xl"></i>
+        </div>
+        <h3 class="display text-2xl mb-3">PERSONALIZADAS</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">Recomendaciones verdaderamente personalizadas basadas en análisis profundo de tus gustos.</p>
+      </div>
+      <div class="card-h bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 reveal">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(255,46,99,.1)">
+          <i class="fa-solid fa-bolt text-[var(--magenta)] text-xl"></i>
+        </div>
+        <h3 class="display text-2xl mb-3">AHORRO DE TIEMPO</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">Menos tiempo buscando, más tiempo disfrutando el contenido que realmente quieres ver.</p>
+      </div>
+      <div class="card-h bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 reveal">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(0,217,163,.1)">
+          <i class="fa-solid fa-layer-group text-[var(--mint)] text-xl"></i>
+        </div>
+        <h3 class="display text-2xl mb-3">MULTI-PLATAFORMA</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">Integración de múltiples plataformas de streaming en una sola experiencia unificada.</p>
+      </div>
+    </div>
+    
+    <div class="grid lg:grid-cols-2 gap-8">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 reveal">
+        <div class="flex items-center gap-3 mb-4">
+          <i class="fa-solid fa-gem text-[var(--gold)]"></i>
+          <span class="text-xs uppercase tracking-widest text-zinc-500">Propuesta de Valor</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed text-lg">
+          Nos diferenciamos porque no solo recomendamos películas y series según géneros populares, sino que <span class="text-white font-semibold">analizamos los gustos reales</span> de cada usuario.
+        </p>
+      </div>
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 reveal">
+        <div class="flex items-center gap-3 mb-4">
+          <i class="fa-solid fa-shield-halved text-[var(--crimson)]"></i>
+          <span class="text-xs uppercase tracking-widest text-zinc-500">Ventaja Defensible (Moat)</span>
+        </div>
+        <p class="text-zinc-300 leading-relaxed">
+          Nuestro algoritmo de recomendación alimentado por datos reales, la experiencia especializada en ayudar a decidir qué ver y la comunidad que genera recomendaciones propias. <span class="text-white font-semibold">Estos elementos mejoran con el tiempo</span> y crean una ventaja competitiva sostenible.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- FUNCIONES -->
+<section id="funciones" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-12 gap-12 mb-16">
+      <div class="lg:col-span-5 reveal">
+        <div class="stag mb-6"><span class="dot"></span>03 · Funcionalidades</div>
+        <h2 class="display text-5xl md:text-6xl leading-none mb-6">
+          TRES PILARES,<br>
+          <span class="logo-mark">UNA EXPERIENCIA</span>
+        </h2>
+      </div>
+      <div class="lg:col-span-7 flex items-end reveal">
+        <p class="text-zinc-400 text-lg leading-relaxed">
+          Una arquitectura pensada para resolver el problema desde múltiples ángulos: entendimiento profundo del usuario, búsqueda contextual y comparación real entre plataformas.
+        </p>
+      </div>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card-h bg-[var(--card)] border border-[var(--border)] rounded-2xl overflow-hidden reveal">
+        <div class="h-48 relative overflow-hidden" style="background:linear-gradient(135deg,#1a1a25,#0a0a0f)">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <i class="fa-solid fa-brain text-7xl" style="color:rgba(255,184,0,.2)"></i>
+          </div>
+          <div class="absolute bottom-4 left-4 mono text-xs text-[var(--gold)]">F_01</div>
+        </div>
+        <div class="p-6">
+          <h3 class="display text-xl mb-2">Recomendaciones Personalizadas</h3>
+          <p class="text-zinc-400 text-sm">Sistema de IA que aprende de cada interacción para ofrecer sugerencias cada vez más precisas.</p>
+        </div>
+      </div>
+      
+      <div class="card-h bg-[var(--card)] border border-[var(--border)] rounded-2xl overflow-hidden reveal">
+        <div class="h-48 relative overflow-hidden" style="background:linear-gradient(135deg,#1a1a25,#0a0a0f)">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <i class="fa-solid fa-magnifying-glass text-7xl" style="color:rgba(255,46,99,.2)"></i>
+          </div>
+          <div class="absolute bottom-4 left-4 mono text-xs text-[var(--magenta)]">F_02</div>
+        </div>
+        <div class="p-6">
+          <h3 class="display text-xl mb-2">Búsqueda Inteligente por Contexto</h3>
+          <p class="text-zinc-400 text-sm">Encuentra títulos según tu estado de ánimo, ocasión, duración disponible y compañía.</p>
+        </div>
+      </div>
+      
+      <div class="card-h bg-[var(--card)] border border-[var(--border)] rounded-2xl overflow-hidden reveal">
+        <div class="h-48 relative overflow-hidden" style="background:linear-gradient(135deg,#1a1a25,#0a0a0f)">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <i class="fa-solid fa-diagram-project text-7xl" style="color:rgba(0,217,163,.2)"></i>
+          </div>
+          <div class="absolute bottom-4 left-4 mono text-xs text-[var(--mint)]">F_03</div>
+        </div>
+        <div class="p-6">
+          <h3 class="display text-xl mb-2">Comparación e Integración</h3>
+          <p class="text-zinc-400 text-sm">Compara disponibilidad y precios entre plataformas para tomar la mejor decisión.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- ROADMAP -->
+<section id="roadmap" class="relative py-32 px-6 overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20 reveal">
+      <div class="stag mb-6 mx-auto"><span class="dot"></span>04 · Roadmap</div>
+      <h2 class="display text-5xl md:text-7xl leading-none mb-6">
+        HOY EL MVP,<br>
+        <span class="logo-mark">MAÑANA EL ECOSISTEMA</span>
+      </h2>
+    </div>
+    
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="hidden md:block absolute top-12 left-0 right-0 h-[2px] tl-line"></div>
+      
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="reveal relative">
+          <div class="hidden md:flex w-6 h-6 rounded-full bg-[var(--gold)] tl-dot absolute top-9 left-0 z-10"></div>
+          <div class="md:pt-24">
+            <div class="mono text-xs text-[var(--gold)] mb-2">FASE 01</div>
+            <h3 class="display text-2xl mb-3">MVP</h3>
+            <p class="text-xs text-zinc-500 mb-3 uppercase tracking-wider">Lanzamiento</p>
+            <ul class="space-y-2 text-sm text-zinc-400">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Sistema básico de recomendaciones</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Registro de usuarios</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Búsqueda por género y preferencias</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="reveal relative">
+          <div class="hidden md:flex w-6 h-6 rounded-full bg-[var(--gold)] tl-dot absolute top-9 left-0 z-10"></div>
+          <div class="md:pt-24">
+            <div class="mono text-xs text-[var(--gold)] mb-2">FASE 02</div>
+            <h3 class="display text-2xl mb-3">IA + ML</h3>
+            <p class="text-xs text-zinc-500 mb-3 uppercase tracking-wider">Mejoras con Inteligencia Artificial</p>
+            <ul class="space-y-2 text-sm text-zinc-400">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Recomendaciones más precisas</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Según comportamiento del usuario</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Aprendizaje de gustos y hábitos</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="reveal relative">
+          <div class="hidden md:flex w-6 h-6 rounded-full bg-[var(--crimson)] tl-dot absolute top-9 left-0 z-10" style="box-shadow:0 0 0 4px var(--bg),0 0 24px var(--crimson)"></div>
+          <div class="md:pt-24">
+            <div class="mono text-xs text-[var(--crimson)] mb-2">FASE 03</div>
+            <h3 class="display text-2xl mb-3">SOCIAL</h3>
+            <p class="text-xs text-zinc-500 mb-3 uppercase tracking-wider">Funciones Sociales</p>
+            <ul class="space-y-2 text-sm text-zinc-400">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Compartir listas de películas</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Reseñas y valoraciones de usuarios</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Recomendaciones entre amigos</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="reveal relative">
+          <div class="hidden md:flex w-6 h-6 rounded-full bg-[var(--magenta)] tl-dot absolute top-9 left-0 z-10" style="box-shadow:0 0 0 4px var(--bg),0 0 24px var(--magenta)"></div>
+          <div class="md:pt-24">
+            <div class="mono text-xs text-[var(--magenta)] mb-2">FASE 04</div>
+            <h3 class="display text-2xl mb-3">EXPANSIÓN</h3>
+            <p class="text-xs text-zinc-500 mb-3 uppercase tracking-wider">Integraciones y Alianzas</p>
+            <ul class="space-y-2 text-sm text-zinc-400">
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Conexión con más plataformas</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>App móvil Android e iOS</li>
+              <li class="flex gap-2"><i class="fa-solid fa-check text-[var(--mint)] mt-1 text-xs"></i>Alianzas con servicios de entretenimiento</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- MERCADO -->
+<section id="mercado" class="relative py-32 px-6 overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <div class="stag mb-6 mx-auto"><span class="dot"></span>05 · Mercado</div>
+      <h2 class="display text-5xl md:text-7xl leading-none mb-6">
+        OPORTUNIDAD<br>
+        <span class="logo-mark">A ESCALA GLOBAL</span>
+      </h2>
+    </div>
+    
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Concentric rings -->
+      <div class="relative aspect-square reveal">
+        <div class="ring w-full h-full opacity-30"></div>
+        <div class="ring" style="width:66%;height:66%;opacity:.5"></div>
+        <div class="ring" style="width:33%;height:33%;opacity:.8"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center">
+            <div class="display text-3xl logo-mark">TAM</div>
+            <div class="text-xs text-zinc-500 mt-1">Global</div>
+          </div>
+        </div>
+        <div class="absolute top-[17%] right-[17%] text-center">
+          <div class="display text-2xl text-[var(--gold)]">SAM</div>
+          <div class="text-xs text-zinc-500">Perú · 18-35</div>
+        </div>
+        <div class="absolute bottom-[33%] left-[33%] text-center">
+          <div class="display text-xl text-[var(--crimson)]">SOM</div>
+          <div class="text-xs text-zinc-500">Inicial</div>
+        </div>
+      </div>
+      
+      <div class="space-y-4 reveal">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 card-h">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1">TAM · Total Addressable Market</div>
+              <div class="display text-3xl">Cientos de millones</div>
+            </div>
+            <i class="fa-solid fa-globe text-2xl text-zinc-700"></i>
+          </div>
+          <p class="text-zinc-400 text-sm">Usuarios globales de streaming a nivel mundial.</p>
+        </div>
+        
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 card-h">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1">SAM · Serviceable Addressable Market</div>
+              <div class="display text-3xl logo-mark">4-6 millones</div>
+            </div>
+            <i class="fa-solid fa-flag text-2xl text-zinc-700"></i>
+          </div>
+          <p class="text-zinc-400 text-sm">Usuarios peruanos entre 18 y 35 años.</p>
+        </div>
+        
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 card-h">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1">SOM · Serviceable Obtainable Market</div>
+              <div class="display text-3xl" style="color:var(--crimson)">50,000</div>
+            </div>
+            <i class="fa-solid fa-bullseye text-2xl text-zinc-700"></i>
+          </div>
+          <p class="text-zinc-400 text-sm">Usuarios potenciales en la etapa inicial del proyecto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- TECNOLOGÍA -->
+<section class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5 reveal">
+        <div class="stag mb-6"><span class="dot"></span>06 · Tecnología</div>
+        <h2 class="display text-5xl md:text-6xl leading-none mb-6">
+          STACK<br>
+          <span class="logo-mark">MODERNO</span><br>
+          ARQUITECTURA<br>
+          SERVERLESS
+        </h2>
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 mt-8">
+          <div class="flex items-center gap-3 mb-3">
+            <i class="fa-solid fa-rocket text-[var(--gold)]"></i>
+            <span class="text-xs uppercase tracking-widest text-zinc-500">Ventaja Técnica</span>
+          </div>
+          <p class="text-zinc-300 leading-relaxed">
+            Nuestra principal ventaja tecnológica es un <span class="text-white font-semibold">motor de recomendación impulsado por IA y Machine Learning</span>, capaz de aprender de cada usuario y ofrecer sugerencias cada vez más precisas y personalizadas.
+          </p>
+        </div>
+      </div>
+      
+      <div class="lg:col-span-7 reveal">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 card-h">
+            <i class="fa-brands fa-react text-3xl mb-3" style="color:#61dafb"></i>
+            <div class="font-bold">React</div>
+            <div class="text-xs text-zinc-500">Frontend</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 card-h">
+            <i class="fa-brands fa-node-js text-3xl mb-3" style="color:#8cc84b"></i>
+            <div class="font-bold">Node.js</div>
+            <div class="text-xs text-zinc-500">Runtime</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 card-h">
+            <i class="fa-solid fa-server text-3xl mb-3 text-zinc-300"></i>
+            <div class="font-bold">Express</div>
+            <div class="text-xs text-zinc-500">API REST</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 card-h">
+            <i class="fa-solid fa-database text-3xl mb-3" style="color:#47a248"></i>
+            <div class="font-bold">MongoDB</div>
+            <div class="text-xs text-zinc-500">Base de datos</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 card-h">
+            <i class="fa-brands fa-python text-3xl mb-3" style="color:#3776ab"></i>
+            <div class="font-bold">Python</div>
+            <div class="text-xs text-zinc-500">IA de recomendaciones</div>
+          </div>
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 card-h">
+            <i class="fa-solid fa-clapperboard text-3xl mb-3" style="color:#01b4e4"></i>
+            <div class="font-bold">API TMDB</div>
+            <div class="text-xs text-zinc-500">Datos de contenido</div>
+          </div>
+        </div>
+        
+        <div class="mt-4 bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 flex items-center justify-between card-h">
+          <div class="flex items-center gap-4">
+            <i class="fa-solid fa-cloud text-2xl text-[var(--gold)]"></i>
+            <div>
+              <div class="font-bold">Vercel + Render</div>
+              <div class="text-xs text-zinc-500">Despliegue serverless</div>
+            </div>
+          </div>
+          <span class="mono text-xs text-zinc-600">DEPLOY</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- AIDA + CLOSE -->
+<section id="aida" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <div class="stag mb-6 mx-auto"><span class="dot"></span>07 · Metodología AIDA + Close</div>
+      <h2 class="display text-5xl md:text-7xl leading-none mb-6">
+        PONDERACIÓN<br>
+        <span class="logo-mark">POR FASE</span>
+      </h2>
+      <p class="text-zinc-400 text-lg max-w-2xl mx-auto">
+        La estructura del pitch sigue el modelo AIDA ampliado con fase de Cierre, con pesos diseñados para maximizar conversión.
+      </p>
+    </div>
+    
+    <div class="grid lg:grid-cols-2 gap-12">
+      <!-- Bars -->
+      <div class="space-y-6 reveal">
+        <div>
+          <div class="flex justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="display text-2xl">HOOK</span>
+              <span class="text-xs text-zinc-500 mono">Atención inicial</span>
+            </div>
+            <span class="display text-2xl logo-mark">12%</span>
+          </div>
+          <div class="h-3 bg-[var(--bg-2)] rounded-full overflow-hidden">
+            <div class="h-full bar-fill rounded-full" data-w="12"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="display text-2xl">INTERÉS</span>
+              <span class="text-xs text-zinc-500 mono">Mantener atención</span>
+            </div>
+            <span class="display text-2xl logo-mark">25%</span>
+          </div>
+          <div class="h-3 bg-[var(--bg-2)] rounded-full overflow-hidden">
+            <div class="h-full bar-fill rounded-full" data-w="25"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="display text-2xl">DESEO</span>
+              <span class="text-xs text-zinc-500 mono">Generar want</span>
+            </div>
+            <span class="display text-2xl logo-mark">30%</span>
+          </div>
+          <div class="h-3 bg-[var(--bg-2)] rounded-full overflow-hidden">
+            <div class="h-full bar-fill rounded-full" data-w="30"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="display text-2xl">ACCIÓN</span>
+              <span class="text-xs text-zinc-500 mono">Conducir al siguiente paso</span>
+            </div>
+            <span class="display text-2xl logo-mark">20%</span>
+          </div>
+          <div class="h-3 bg-[var(--bg-2)] rounded-full overflow-hidden">
+            <div class="h-full bar-fill rounded-full" data-w="20"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="display text-2xl">CIERRE</span>
+              <span class="text-xs text-zinc-500 mono">Conversión final</span>
+            </div>
+            <span class="display text-2xl logo-mark">13%</span>
+          </div>
+          <div class="h-3 bg-[var(--bg-2)] rounded-full overflow-hidden">
+            <div class="h-full bar-fill rounded-full" data-w="13"></div>
+          </div>
+        </div>
+        
+        <div class="pt-4 border-t border-white/5">
+          <div class="flex justify-between items-center">
+            <span class="text-xs uppercase tracking-widest text-zinc-500">Total</span>
+            <span class="display text-3xl">100<span class="logo-mark">%</span></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pie representation -->
+      <div class="reveal">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-8 h-full">
+          <div class="text-xs uppercase tracking-widest text-zinc-500 mb-6">Distribución visual del peso</div>
+          <div class="space-y-3">
+            <div class="flex items-center gap-4">
+              <div class="w-1 h-12 rounded-full" style="background:var(--gold)"></div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="font-bold">Hook</span>
+                  <span class="mono text-sm text-zinc-500">12%</span>
+                </div>
+                <div class="text-xs text-zinc-500">Captar la atención en los primeros segundos del pitch.</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-1 h-16 rounded-full" style="background:var(--gold-2)"></div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="font-bold">Interés</span>
+                  <span class="mono text-sm text-zinc-500">25%</span>
+                </div>
+                <div class="text-xs text-zinc-500">Sostener la atención con datos y contexto relevante.</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-1 h-20 rounded-full" style="background:var(--crimson)"></div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="font-bold">Deseo</span>
+                  <span class="mono text-sm text-zinc-500">30%</span>
+                </div>
+                <div class="text-xs text-zinc-500">Mostrar la propuesta de valor y los diferenciadores clave.</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-1 h-14 rounded-full" style="background:var(--magenta)"></div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="font-bold">Acción</span>
+                  <span class="mono text-sm text-zinc-500">20%</span>
+                </div>
+                <div class="text-xs text-zinc-500">Invitar a probar la demo y unirse como early adopter.</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-1 h-10 rounded-full" style="background:var(--mint)"></div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="font-bold">Cierre</span>
+                  <span class="mono text-sm text-zinc-500">13%</span>
+                </div>
+                <div class="text-xs text-zinc-500">Sell the vision y próximos pasos concretos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-cine"></div>
+
+<!-- CTA FINAL -->
+<section class="relative py-32 px-6 overflow-hidden">
+  <div class="absolute inset-0">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full" style="background:radial-gradient(ellipse,rgba(255,184,0,.2),transparent 60%);filter:blur(60px)"></div>
+  </div>
+  <div class="max-w-5xl mx-auto text-center relative reveal">
+    <div class="stag mb-6 mx-auto"><span class="dot"></span>Close · Llamado a la acción</div>
+    <h2 class="display text-6xl md:text-8xl leading-[0.9] mb-8">
+      DEJA DE<br>
+      <span class="logo-mark glow-gold">BUSCAR.</span><br>
+      EMPIEZA A<br>
+      <span style="color:var(--mint)">DISFRUTAR.</span>
+    </h2>
+    <p class="text-zinc-400 text-xl mb-10 max-w-2xl mx-auto">
+      Únete a CINEMATCH y forma parte de la nueva generación de espectadores que recuperan su tiempo.
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="https://www.cinematch.app" target="_blank" class="btn-primary px-8 py-4 rounded-lg inline-flex items-center gap-2 text-lg">
+        <i class="fa-solid fa-play"></i> Probar Demo Ahora
+      </a>
+      <a href="mailto:U20210718@utp.edu.pe" class="btn-ghost px-8 py-4 rounded-lg inline-flex items-center gap-2 text-lg">
+        <i class="fa-solid fa-envelope"></i> Contactar
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 py-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,var(--gold),var(--crimson))">
+            <i class="fa-solid fa-clapperboard text-black text-sm"></i>
+          </div>
+          <span class="display text-xl">CINE<span class="logo-mark">MATCH</span></span>
+        </div>
+        <p class="text-zinc-500 text-sm">Menos tiempo buscando, más tiempo disfrutando el contenido.</p>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-widest text-zinc-600 mb-3">Estudiante</div>
+        <div class="text-sm text-zinc-300">Jheremy Danny Atarama Anampa</div>
+        <div class="mono text-sm text-[var(--gold)] mt-1">U20210718@utp.edu.pe</div>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-widest text-zinc-600 mb-3">Curso</div>
+        <div class="text-sm text-zinc-300">Infografía — Semana 14</div>
+        <div class="text-sm text-zinc-500 mt-1">Metodología AIDA + Close</div>
+      </div>
+    </div>
+    <div class="pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-xs text-zinc-600">
+      <div>© 2026 CINEMATCH · Pitch Report</div>
+      <div class="mono">Generado con PitchCraft Interactive · d3magindesign</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = pct + '%';
+  });
+  
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        // Trigger bars
+        e.target.querySelectorAll('.bar-fill').forEach(b => {
+          const w = b.dataset.w;
+          b.style.width = w + '%';
+          setTimeout(() => b.classList.add('in'), 100);
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+  
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  
+  // Card hover spotlight
+  document.querySelectorAll('.card-h').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+    });
+  });
+  
+  // Animate bars when AIDA section enters
+  const aidaSection = document.getElementById('aida');
+  const aidaIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('#aida .bar-fill').forEach((b, i) => {
+          setTimeout(() => {
+            b.style.width = b.dataset.w + '%';
+            b.classList.add('in');
+          }, i * 150);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  aidaIO.observe(aidaSection);
+</script>
+
+</body>
+</html>
